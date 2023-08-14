@@ -1,104 +1,214 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
+/// <summary>
+/// This component listens for images detected by the <c>XRImageTrackingSubsystem</c>
+/// and overlays some prefabs on top of the detected image.
+/// </summary>
 [RequireComponent(typeof(ARTrackedImageManager))]
-public class PrefabImagePairManager : MonoBehaviour
+public class PrefabImagePairManager : MonoBehaviour, ISerializationCallbackReceiver
 {
+    /// <summary>
+    /// Used to associate an `XRReferenceImage` with a Prefab by using the `XRReferenceImage`'s guid as a unique identifier for a particular reference image.
+    /// </summary>
     [Serializable]
     struct NamedPrefab
     {
-        public MealType mealType;
-        public GameObject prefab;
+        // System.Guid isn't serializable, so we store the Guid as a string. At runtime, this is converted back to a System.Guid
+        public string imageGuid;
+        public GameObject imagePrefab;
 
-        public NamedPrefab(MealType type, GameObject prefab)
+        public NamedPrefab(Guid guid, GameObject prefab)
         {
-            this.mealType = type;
-            this.prefab = prefab;
+            imageGuid = guid.ToString();
+            imagePrefab = prefab;
         }
     }
 
-
-    // reference to the ARTrackedImageManager Component
-    private ARTrackedImageManager _trackedImageManager;
-    // dictionary to store the reference image name and the prefab
-    private Dictionary<MealType, GameObject> _instantiatedPrefabs = new();
-
-    // Get the reference to the ScriptableObject
     [SerializeField]
-    private TrackingImageConfigurations trackingImageConfigurations;
-    // list of prefabs to be instantiated
-    // these prefabs should be in the same order as the reference images in the ARTrackedImageManager
+    [HideInInspector]
+    List<NamedPrefab> m_PrefabsList = new List<NamedPrefab>();
+
+    Dictionary<Guid, GameObject> m_PrefabsDictionary = new Dictionary<Guid, GameObject>();
+    Dictionary<Guid, GameObject> m_Instantiated = new Dictionary<Guid, GameObject>();
+    ARTrackedImageManager m_TrackedImageManager;
+
     [SerializeField]
-    private NamedPrefab[] arPrefabs;
+    [Tooltip("Reference Image Library")]
+    XRReferenceImageLibrary m_ImageLibrary;
 
-    private void Awake()
+    /// <summary>
+    /// Get the <c>XRReferenceImageLibrary</c>
+    /// </summary>
+    public XRReferenceImageLibrary imageLibrary
     {
-        // get the reference
-        _trackedImageManager = GetComponent<ARTrackedImageManager>();
+        get => m_ImageLibrary;
+        set => m_ImageLibrary = value;
     }
 
-    private void OnEnable()
+    public void OnBeforeSerialize()
     {
-        // subscribe to the event
-        _trackedImageManager.trackedImagesChanged += OnImageChanged;
-    }
-
-    private void OnDisable()
-    {
-        // unsubscribe to the event
-        _trackedImageManager.trackedImagesChanged -= OnImageChanged;
-    }
-
-    // Event Handler
-    private void OnImageChanged(ARTrackedImagesChangedEventArgs args)
-    {
-        // loop through all new tracked images that have been detected
-        foreach (var trackedImage in args.added)
+        m_PrefabsList.Clear();
+        foreach (var kvp in m_PrefabsDictionary)
         {
-            // get the name of the tracked image
-            string imageName = trackedImage.referenceImage.name;
-            // get the corresponding meal type from the ScriptableObject
-            MealType mealType = trackingImageConfigurations.GetMealType(imageName);
+            m_PrefabsList.Add(new NamedPrefab(kvp.Key, kvp.Value));
+        }
+    }
 
-            // loop through the list of prefabs
-            foreach (var curPrefab in arPrefabs)
+    public void OnAfterDeserialize()
+    {
+        m_PrefabsDictionary = new Dictionary<Guid, GameObject>();
+        foreach (var entry in m_PrefabsList)
+        {
+            m_PrefabsDictionary.Add(Guid.Parse(entry.imageGuid), entry.imagePrefab);
+        }
+    }
+
+    void Awake()
+    {
+        m_TrackedImageManager = GetComponent<ARTrackedImageManager>();
+    }
+
+    void OnEnable()
+    {
+        m_TrackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+    }
+
+    void OnDisable()
+    {
+        m_TrackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
+    }
+
+    void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
+    {
+        foreach (var trackedImage in eventArgs.added)
+        {
+            // Give the initial image a reasonable default scale
+            //var minLocalScalar = Mathf.Min(trackedImage.size.x, trackedImage.size.y) / 2;
+            //trackedImage.transform.localScale = new Vector3(minLocalScalar, minLocalScalar, minLocalScalar);
+            AssignPrefab(trackedImage);
+        }
+    }
+
+    void AssignPrefab(ARTrackedImage trackedImage)
+    {
+        if (m_PrefabsDictionary.TryGetValue(trackedImage.referenceImage.guid, out var prefab) && !prefab.IsUnityNull())
+            m_Instantiated[trackedImage.referenceImage.guid] = Instantiate(prefab, trackedImage.transform);
+    }
+
+    public GameObject GetPrefabForReferenceImage(XRReferenceImage referenceImage)
+        => m_PrefabsDictionary.TryGetValue(referenceImage.guid, out var prefab) ? prefab : null;
+
+    public void SetPrefabForReferenceImage(XRReferenceImage referenceImage, GameObject alternativePrefab)
+    {
+        m_PrefabsDictionary[referenceImage.guid] = alternativePrefab;
+        if (m_Instantiated.TryGetValue(referenceImage.guid, out var instantiatedPrefab))
+        {
+            m_Instantiated[referenceImage.guid] = Instantiate(alternativePrefab, instantiatedPrefab.transform.parent);
+            Destroy(instantiatedPrefab);
+        }
+    }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// This customizes the inspector component and updates the prefab list when
+    /// the reference image library is changed.
+    /// </summary>
+    [CustomEditor(typeof(PrefabImagePairManager))]
+    class PrefabImagePairManagerInspector : Editor
+    {
+        List<XRReferenceImage> m_ReferenceImages = new List<XRReferenceImage>();
+        bool m_IsExpanded = true;
+
+        bool HasLibraryChanged(XRReferenceImageLibrary library)
+        {
+            if (library == null)
+                return m_ReferenceImages.Count == 0;
+
+            if (m_ReferenceImages.Count != library.count)
+                return true;
+
+            for (int i = 0; i < library.count; i++)
             {
-                // check whether prefab is matches the tracked image name, and that prefab hasnb't already been created
-                if (curPrefab.mealType == mealType && !_instantiatedPrefabs.ContainsKey(mealType))
+                if (m_ReferenceImages[i] != library[i])
+                    return true;
+            }
+
+            return false;
+        }
+
+        public override void OnInspectorGUI()
+        {
+            //customized inspector
+            var behaviour = serializedObject.targetObject as PrefabImagePairManager;
+
+            serializedObject.Update();
+            using (new EditorGUI.DisabledScope(true))
+            {
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Script"));
+            }
+
+            var libraryProperty = serializedObject.FindProperty(nameof(m_ImageLibrary));
+            EditorGUILayout.PropertyField(libraryProperty);
+            var library = libraryProperty.objectReferenceValue as XRReferenceImageLibrary;
+
+            //check library changes
+            if (HasLibraryChanged(library))
+            {
+                if (library)
                 {
-                    // Initiate the prefab, Parenting it to the ArTrackedImage
-                    var newPrefab = Instantiate(curPrefab.prefab, trackedImage.transform);
-                    // add the prefab to the dictionary
-                    _instantiatedPrefabs.Add(mealType, newPrefab);
+                    var tempDictionary = new Dictionary<Guid, GameObject>();
+                    foreach (var referenceImage in library)
+                    {
+                        tempDictionary.Add(referenceImage.guid, behaviour.GetPrefabForReferenceImage(referenceImage));
+                    }
+                    behaviour.m_PrefabsDictionary = tempDictionary;
                 }
             }
-        }
 
-        // for all prefabs that have been created so far,
-        foreach (var trackedImage in args.updated)
-        {
-            // set the corresponding prefab to active/inactive depending on the tracking state
-            if(_instantiatedPrefabs.TryGetValue(trackingImageConfigurations.GetMealType(trackedImage.referenceImage.name), out GameObject prefab))
-                prefab.SetActive(trackedImage.trackingState == TrackingState.Tracking);
-        }
-
-        // if the AR system has given up looking for the image, remove the corresponding prefab
-        foreach (var trackedImage in args.removed)
-        {
-            MealType type = trackingImageConfigurations.GetMealType(trackedImage.referenceImage.name);
-
-            if (_instantiatedPrefabs.TryGetValue(type, out GameObject prefab))
+            // update current
+            m_ReferenceImages.Clear();
+            if (library)
             {
-                // destroy the corresponding prefab
-                Destroy(prefab);
-                // remove the prefab from the dictionary
-                _instantiatedPrefabs.Remove(type);
+                foreach (var referenceImage in library)
+                {
+                    m_ReferenceImages.Add(referenceImage);
+                }
             }
+
+            //show prefab list
+            m_IsExpanded = EditorGUILayout.Foldout(m_IsExpanded, "Prefab List");
+            if (m_IsExpanded)
+            {
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    EditorGUI.BeginChangeCheck();
+
+                    var tempDictionary = new Dictionary<Guid, GameObject>();
+                    foreach (var image in library)
+                    {
+                        var prefab = (GameObject)EditorGUILayout.ObjectField(image.name, behaviour.m_PrefabsDictionary[image.guid], typeof(GameObject), false);
+                        tempDictionary.Add(image.guid, prefab);
+                    }
+
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        Undo.RecordObject(target, "Update Prefab");
+                        behaviour.m_PrefabsDictionary = tempDictionary;
+                        EditorUtility.SetDirty(target);
+                    }
+                }
+            }
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
+#endif
 }
