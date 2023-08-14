@@ -23,10 +23,10 @@ public class TrackingImageConfigurations : ScriptableObject
         public string imageName;
         public MealType mealType;
 
-        public ImageData(string image, MealType mealType = MealType.MainDish)
+        public ImageData(string image, MealType type)
         {
-            this.imageName = image;
-            this.mealType = mealType;
+            imageName = image;
+            mealType = type;
         }
     }
 
@@ -44,7 +44,7 @@ public class TrackingImageConfigurations : ScriptableObject
         // populate the list
         foreach (var image in referenceImageLibrary)
         {
-            imageMealTypePairs.Add(new ImageData(image.name));
+            imageMealTypePairs.Add(new ImageData(image.name, MealType.MainDish));
         }
     }
 
@@ -62,20 +62,22 @@ public class TrackingImageConfigurations : ScriptableObject
         // if no match found, return MainDish
         return MealType.MainDish;
     }
-}
 
-[CustomEditor(typeof(TrackingImageConfigurations))]
-public class TrackingImageConfigurationsEditor : Editor
-{
-    public override void OnInspectorGUI()
+#if UNITY_EDITOR
+    [CustomEditor(typeof(TrackingImageConfigurations))]
+    public class TrackingImageConfigurationsEditor : Editor
     {
-        base.OnInspectorGUI();
-
-        TrackingImageConfigurations trackingImageConfigurations = (TrackingImageConfigurations)target;
-
-        if (GUILayout.Button("Update List"))
+        public override void OnInspectorGUI()
         {
-            trackingImageConfigurations.PopulateList();
+            base.OnInspectorGUI();
+
+            TrackingImageConfigurations trackingImageConfigurations = (TrackingImageConfigurations)target;
+
+            if (GUILayout.Button("Update List"))
+            {
+                trackingImageConfigurations.PopulateList();
+            }
         }
     }
+#endif
 }

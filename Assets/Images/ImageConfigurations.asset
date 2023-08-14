@@ -15,9 +15,11 @@ MonoBehaviour:
   referenceImageLibrary: {fileID: 11400000, guid: 0a7aa306d647d564b9344d8f573c85b0,
     type: 2}
   imageMealTypePairs:
-  - imageName: marker-01
+  - imageName: main-dish
     mealType: 0
-  - imageName: marker-02
+  - imageName: side-dish
     mealType: 1
-  - imageName: marker-03
+  - imageName: beverage
     mealType: 2
+  - imageName: dessert
+    mealType: 3
