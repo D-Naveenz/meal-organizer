@@ -73,6 +73,7 @@ public class PrefabImagePairManager : MonoBehaviour
                 {
                     // Initiate the prefab, Parenting it to the ArTrackedImage
                     var newPrefab = Instantiate(curPrefab.prefab, trackedImage.transform);
+                    Console.WriteLine($"Image Name: {imageName}, Meal Type: {mealType}");
                     // add the prefab to the dictionary
                     _instantiatedPrefabs.Add(mealType, newPrefab);
                 }

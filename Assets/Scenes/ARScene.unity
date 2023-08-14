@@ -358,7 +358,10 @@ MonoBehaviour:
     type: 2}
   arPrefabs:
   - mealType: 0
-    prefab: {fileID: 7161857925010810792, guid: 9156fd62c5ed44542b67f6acc5358c1b,
+    prefab: {fileID: 2490052539293194209, guid: 37494d3628bed2945af8216fc840fe10,
+      type: 3}
+  - mealType: 1
+    prefab: {fileID: 5760611794805824718, guid: c7eb2e01293785a469d2455752c950ea,
       type: 3}
 --- !u!1 &1427676300
 GameObject:
