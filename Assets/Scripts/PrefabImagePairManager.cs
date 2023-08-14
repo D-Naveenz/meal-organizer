@@ -93,14 +93,47 @@ public class PrefabImagePairManager : MonoBehaviour, ISerializationCallbackRecei
             // Give the initial image a reasonable default scale
             //var minLocalScalar = Mathf.Min(trackedImage.size.x, trackedImage.size.y) / 2;
             //trackedImage.transform.localScale = new Vector3(minLocalScalar, minLocalScalar, minLocalScalar);
-            AssignPrefab(trackedImage);
-        }
-    }
 
-    void AssignPrefab(ARTrackedImage trackedImage)
-    {
-        if (m_PrefabsDictionary.TryGetValue(trackedImage.referenceImage.guid, out var prefab) && !prefab.IsUnityNull())
-            m_Instantiated[trackedImage.referenceImage.guid] = Instantiate(prefab, trackedImage.transform);
+            if (m_PrefabsDictionary.TryGetValue(trackedImage.referenceImage.guid, out var prefab) && !prefab.IsUnityNull())
+                m_Instantiated[trackedImage.referenceImage.guid] = Instantiate(prefab, trackedImage.transform);
+        }
+
+        foreach (var trackedImage in eventArgs.updated)
+        {
+            // check if the prefab exists in instantiated dictionary
+            if (m_Instantiated.TryGetValue(trackedImage.referenceImage.guid, out var prefab))
+            {
+                Console.WriteLine("Tracked Image Name: " + trackedImage.referenceImage.name);
+
+                if (trackedImage.trackingState == TrackingState.Tracking)
+                {
+                    // update the position and rotation of the prefab to the tracked image
+                    prefab.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
+                }
+                else
+                {
+                    // if the image is no longer being tracked, remove the prefab
+                    m_Instantiated.Remove(trackedImage.referenceImage.guid);
+                    // destroy the prefab
+                    Destroy(prefab);
+
+                    Console.WriteLine("Removed: " + trackedImage.referenceImage.name);
+                }
+            }
+        }
+
+        foreach (var trackedImage in eventArgs.removed)
+        {
+            Console.WriteLine("Removed: " + trackedImage.referenceImage.name);
+
+            if (m_Instantiated.TryGetValue(trackedImage.referenceImage.guid, out var prefab))
+            {
+                // remove the prefab from the dictionary
+                m_Instantiated.Remove(trackedImage.referenceImage.guid);
+                // destroy the prefab
+                Destroy(prefab);
+            }
+        }
     }
 
     public GameObject GetPrefabForReferenceImage(XRReferenceImage referenceImage)

@@ -21,39 +21,39 @@ MonoBehaviour:
       m_GuidLow: 5501009610551132331
       m_GuidHigh: 1796247046913892027
     m_SerializedTextureGuid:
-      m_GuidLow: 15250478285945993581
-      m_GuidHigh: 12871893625052874651
-    m_Size: {x: 0.1, y: 0.1}
+      m_GuidLow: 17222954818827688778
+      m_GuidHigh: 10680960991403723835
+    m_Size: {x: 0.38069484, y: 0.2534}
     m_SpecifySize: 1
     m_Name: main-dish
-    m_Texture: {fileID: 2800000, guid: 589e796d9533d3a49b47e4c30d27a2b2, type: 3}
+    m_Texture: {fileID: 2800000, guid: 16d39b4a3a28ef043b4c6c786e653a94, type: 3}
   - m_SerializedGuid:
       m_GuidLow: 5685261989176219329
       m_GuidHigh: 6752219672358726026
     m_SerializedTextureGuid:
-      m_GuidLow: 9373378333133277684
-      m_GuidHigh: 9121581363856072427
-    m_Size: {x: 0.1, y: 0.1}
+      m_GuidLow: 3437473656675568846
+      m_GuidHigh: 15918215168774891146
+    m_Size: {x: 0.16904603, y: 0.2534}
     m_SpecifySize: 1
     m_Name: side-dish
-    m_Texture: {fileID: 2800000, guid: 83c089f4edee8214ebde7616ec5d967e, type: 3}
+    m_Texture: {fileID: 2800000, guid: 06e90cce5c142fb48ae60f915bdce8dc, type: 3}
   - m_SerializedGuid:
       m_GuidLow: 5425046496050303673
       m_GuidHigh: 17509160916384585613
     m_SerializedTextureGuid:
-      m_GuidLow: 18290320215800099129
-      m_GuidHigh: 10964962364238884026
-    m_Size: {x: 0.1, y: 0.1}
+      m_GuidLow: 3554572688172976044
+      m_GuidHigh: 15706974889939157674
+    m_Size: {x: 0.3801, y: 0.2534}
     m_SpecifySize: 1
     m_Name: beverage
-    m_Texture: {fileID: 2800000, guid: 7ae931394554fdd4ba6cfce72c5f2b98, type: 3}
+    m_Texture: {fileID: 2800000, guid: e6db07ac61063154aac2cd7a7162fad9, type: 3}
   - m_SerializedGuid:
       m_GuidLow: 4897367919622542910
       m_GuidHigh: 14240809152779718077
     m_SerializedTextureGuid:
-      m_GuidLow: 16223128838563434317
-      m_GuidHigh: 8247035787127581081
-    m_Size: {x: 0.1, y: 0.1}
+      m_GuidLow: 3360849985241363772
+      m_GuidHigh: 13570594209734571192
+    m_Size: {x: 0.33786666, y: 0.2534}
     m_SpecifySize: 1
     m_Name: dessert
-    m_Texture: {fileID: 2800000, guid: 8ff80f4d21b9e1249969ac8d5a5b7372, type: 3}
+    m_Texture: {fileID: 2800000, guid: 49b0353c23412ea4b8b4339e886f54bc, type: 3}
