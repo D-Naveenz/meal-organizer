@@ -354,8 +354,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed3baaa7b64a574fb7051b65249c16a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trackingImageConfigurations: {fileID: 11400000, guid: 223a76514e9f197428c6e0bf195aaaea,
+    type: 2}
   arPrefabs:
-  - {fileID: 7161857925010810792, guid: 9156fd62c5ed44542b67f6acc5358c1b, type: 3}
+  - mealType: 0
+    prefab: {fileID: 7161857925010810792, guid: 9156fd62c5ed44542b67f6acc5358c1b,
+      type: 3}
 --- !u!1 &1427676300
 GameObject:
   m_ObjectHideFlags: 0
