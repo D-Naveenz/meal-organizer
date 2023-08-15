@@ -107,17 +107,17 @@ public class PrefabImagePairManager : MonoBehaviour, ISerializationCallbackRecei
 
                 if (trackedImage.trackingState == TrackingState.Tracking)
                 {
+                    // activate the prefab
+                    prefab.SetActive(true);
                     // update the position and rotation of the prefab to the tracked image
                     prefab.transform.SetPositionAndRotation(trackedImage.transform.position, trackedImage.transform.rotation);
                 }
                 else
                 {
-                    // if the image is no longer being tracked, remove the prefab
-                    m_Instantiated.Remove(trackedImage.referenceImage.guid);
-                    // destroy the prefab
-                    Destroy(prefab);
+                    // deactivate the prefab if the image is no longer tracked
+                    prefab.SetActive(false);
 
-                    Console.WriteLine("Removed: " + trackedImage.referenceImage.name);
+                    Console.WriteLine("Deactivated: " + trackedImage.referenceImage.name);
                 }
             }
         }
