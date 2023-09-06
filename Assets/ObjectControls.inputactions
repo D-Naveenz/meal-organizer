@@ -1,0 +1,45 @@
+{
+    "name": "ObjectControls",
+    "maps": [
+        {
+            "name": "MealComponentsMap",
+            "id": "e4dc833d-9daa-49db-b983-dbfcb7a20452",
+            "actions": [
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "444949f0-ff8f-4c89-953d-9956e4aae42e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2735cf34-6099-493e-92cd-de6e4d2b26e1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "053e53e3-c2fb-485e-8512-2c03e7787550",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
