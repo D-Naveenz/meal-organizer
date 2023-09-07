@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 348be6f06ed985044a058b348ac3daab
+guid: ee9b3fb51c2f982478dd148a455bf313
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ceramic
+    second: {fileID: 2100000, guid: bfe6bd80578626242b4e95344e53ff42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pizza_00
+    second: {fileID: 2100000, guid: d2546887d717e684880a275f60db83eb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pizza_01
+    second: {fileID: 2100000, guid: fdd8b0bc4323740479cfc82f8043b3fc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: pizza_dough
+    second: {fileID: 2100000, guid: 5643925cb357123469b66a4e9f3ed806, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
