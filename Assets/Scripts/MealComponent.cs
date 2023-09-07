@@ -27,7 +27,10 @@ public class MealComponent : MonoBehaviour
     {
         highlighter.SetActive(true);
 
-        SpawnFood(food);
+        if (food != null)
+        {
+            SpawnFood(food);
+        }
     }
 
     public void Deselect()

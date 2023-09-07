@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     private MealComponent selectedMealComponent;
+    private ObjectControls objectControls;
 
     // Singleton
     public InputManager Instance { get; private set; }
@@ -26,6 +27,38 @@ public class InputManager : MonoBehaviour
         }
 
         Instance = this;
+
+        // Initialize the object controls
+        objectControls = new ObjectControls();
+        objectControls.Touch.Enable();
+        // Enable the touch position event
+        objectControls.Touch.TouchPosition.performed += TouchPosition_performed;
+    }
+
+    private void TouchPosition_performed(InputAction.CallbackContext context)
+    {
+        // Casting a ray from the touch position
+        Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f) && hit.collider)
+        {
+            if (hit.transform.TryGetComponent(out MealComponent component))
+            {
+                Debug.Log($"Selected a Meal Component: {hit.collider.name}");
+                SetSelectedMealComponent(component);
+
+                // Fire the event
+                OnSelectedComponentChanged?.Invoke(this, new SelectedComponentChangedEventArgs { SelectedComponent = component });
+            }
+        }
+        else
+        {
+            // Debug.Log("Selected nothing");
+            SetSelectedMealComponent(null);
+
+            // Fire the event
+            OnSelectedComponentChanged?.Invoke(this, new SelectedComponentChangedEventArgs { SelectedComponent = null });
+        }
     }
 
     private void SetSelectedMealComponent(MealComponent component)
@@ -51,34 +84,6 @@ public class InputManager : MonoBehaviour
 
             // Fire the event
             // OnSelectedComponentChanged?.Invoke(this, new SelectedComponentChangedEventArgs { SelectedComponent = selectedMealComponent });
-        }
-    }
-
-    public void Interact(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            // Casting a ray from the mouse position
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (Physics.Raycast(ray, out RaycastHit hit) && hit.collider)
-            {
-                if (hit.transform.TryGetComponent(out MealComponent component))
-                {
-                    // Debug.Log($"Selected a Meal Component: {hit.collider.name}");
-                    SetSelectedMealComponent(component);
-
-                    // Fire the event
-                    OnSelectedComponentChanged?.Invoke(this, new SelectedComponentChangedEventArgs { SelectedComponent = component });
-                }
-            }
-            else
-            {
-                // Debug.Log("Selected nothing");
-                SetSelectedMealComponent(null);
-
-                // Fire the event
-                OnSelectedComponentChanged?.Invoke(this, new SelectedComponentChangedEventArgs { SelectedComponent = null });
-            }
         }
     }
 }

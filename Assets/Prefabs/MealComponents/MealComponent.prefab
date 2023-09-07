@@ -188,7 +188,7 @@ MonoBehaviour:
   highlighter: {fileID: 6818275254478548123}
   platform: {fileID: 7828324788904883592}
   foodAnchorPoint: {fileID: 3929170927798805432}
-  food: {fileID: 0}
+  food: {fileID: 11400000, guid: 80a0922cb75d8d54da181ab55377d7e8, type: 2}
 --- !u!136 &1376249258407484725
 CapsuleCollider:
   m_ObjectHideFlags: 0
