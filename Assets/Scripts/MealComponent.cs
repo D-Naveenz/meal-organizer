@@ -1,30 +1,49 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MealComponent : MonoBehaviour
 {
     [SerializeField] private GameObject highlighter;
+    [SerializeField] private GameObject platform;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private bool isSelected = false;
 
-    // Update is called once per frame
-    void Update()
+
+    private void Start()
     {
-        
+        // Make sure the highlighter is not visible at the start
+        highlighter.SetActive(false);
+        // Make sure the placeholder is visible at the start
+        platform.SetActive(true);
     }
 
     private void Select()
     {
+        isSelected = true;
+
         highlighter.SetActive(true);
     }
 
     private void Deselect()
     {
+        isSelected = false;
+
         highlighter.SetActive(false);
+    }
+
+    public void ToggleSelection()
+    {
+        if (isSelected)
+        {
+            Deselect();
+        }
+        else
+        {
+            Select();
+        }
     }
 }
