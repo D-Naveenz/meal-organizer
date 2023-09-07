@@ -21,14 +21,14 @@ public class MealComponent : MonoBehaviour
         platform.SetActive(true);
     }
 
-    private void Select()
+    public void Select()
     {
         isSelected = true;
 
         highlighter.SetActive(true);
     }
 
-    private void Deselect()
+    public void Deselect()
     {
         isSelected = false;
 
