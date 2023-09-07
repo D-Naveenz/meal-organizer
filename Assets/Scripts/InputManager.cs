@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class InputManager : MonoBehaviour
 {
     private MealComponent selectedMealComponent;
-    private ObjectControls objectControls;
 
     // Singleton
     public InputManager Instance { get; private set; }
@@ -27,18 +28,29 @@ public class InputManager : MonoBehaviour
         }
 
         Instance = this;
-
-        // Initialize the object controls
-        objectControls = new ObjectControls();
-        objectControls.Touch.Enable();
-        // Enable the touch position event
-        objectControls.Touch.TouchPosition.performed += TouchPosition_performed;
     }
 
-    private void TouchPosition_performed(InputAction.CallbackContext context)
+    private void OnEnable()
+    {
+        TouchSimulation.Enable();
+        EnhancedTouchSupport.Enable();
+    }
+
+    private void OnDisable()
+    {
+        TouchSimulation.Disable();
+        EnhancedTouchSupport.Disable();
+    }
+
+    private void Start()
+    {
+        Touch.onFingerDown += Touch_onFingerDown;
+    }
+
+    private void Touch_onFingerDown(Finger finger)
     {
         // Casting a ray from the touch position
-        Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
+        Ray ray = Camera.main.ScreenPointToRay(finger.screenPosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f) && hit.collider)
         {
