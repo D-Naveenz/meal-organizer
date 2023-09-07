@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Pizza
   m_EditorClassIdentifier: 
   requirePlatform: 0
-  prefab: {fileID: 0}
+  prefab: {fileID: 8459644560754191326, guid: 29ed1a29e8831e443b1e5133d4ec892f, type: 3}
   foodIcon: {fileID: 0}
-  foodName: 
+  foodName: Pizza

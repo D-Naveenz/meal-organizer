@@ -11,9 +11,8 @@ public class MealComponent : MonoBehaviour
     [SerializeField] private GameObject platform;
     [SerializeField] private Transform foodAnchorPoint;
     [SerializeField] private FoodScriptableObject food;
-    private Transform spawnedFood;
 
-    private bool isSelected = false;
+    public FoodObject FoodObject { get; set; }
 
 
     private void Start()
@@ -26,8 +25,6 @@ public class MealComponent : MonoBehaviour
 
     public void Select()
     {
-        isSelected = true;
-
         highlighter.SetActive(true);
 
         SpawnFood(food);
@@ -35,48 +32,56 @@ public class MealComponent : MonoBehaviour
 
     public void Deselect()
     {
-        isSelected = false;
-
         highlighter.SetActive(false);
     }
 
-    public void ToggleSelection()
+    public bool HasFoodObject()
     {
-        if (isSelected)
+        return FoodObject != null;
+    }
+
+    public void ClearFoodObject()
+    {
+        if (FoodObject != null)
         {
-            Deselect();
+            Destroy(FoodObject.gameObject);
+            FoodObject = null;
         }
-        else
-        {
-            Select();
-        }
+    }
+
+    public Transform getFoodAnchorPoint()
+    {
+        return foodAnchorPoint;
     }
 
     private void SpawnFood(FoodScriptableObject foodSO)
     {
-        // destroy the old food
-        if (spawnedFood != null)
+        if (FoodObject == null)
         {
-            Destroy(spawnedFood.gameObject);
-        }
+            Transform target;
 
-        if (foodSO.requirePlatform)
-        {
-            // show the platform
-            platform.SetActive(true);
+            if (foodSO.requirePlatform)
+            {
+                // show the platform
+                platform.SetActive(true);
+                // The object should be spawned on the platform
+                target = foodAnchorPoint;
+            }
+            else
+            {
+                // hide the platform
+                platform.SetActive(false);
+                // The object should be spawned center of the meal component
+                target = transform;
+            }
 
-            // spawn the food on the anchor point
-            spawnedFood = Instantiate(foodSO.prefab, foodAnchorPoint);
-            spawnedFood.localPosition = Vector3.zero;  // Reset the position of the anchor point
+            // spawn the food on the target location
+            Transform foodTransform = Instantiate(foodSO.prefab, target);
+            foodTransform.GetComponent<FoodObject>().MealComponent = this;
         }
         else
         {
-            // hide the platform
-            platform.SetActive(false);
-
-            // spawn the food at the center of the meal component
-            spawnedFood = Instantiate(foodSO.prefab, transform);
-            spawnedFood.localPosition = Vector3.zero;  // Reset the position of the anchor point
+            Debug.Log($"MealComponent already has a food. (Meal component: {this.name} | Food: {food.name})");
         }
     }
 }

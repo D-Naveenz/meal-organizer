@@ -927,6 +927,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1477122190315490107, guid: 428a4aa36fab9de4c88bfd1c5c21f9e6,
+        type: 3}
+      propertyPath: food
+      value: 
+      objectReference: {fileID: 11400000, guid: 80a0922cb75d8d54da181ab55377d7e8,
+        type: 2}
+    - target: {fileID: 1477122190315490107, guid: 428a4aa36fab9de4c88bfd1c5c21f9e6,
+        type: 3}
+      propertyPath: foodPrefab
+      value: 
+      objectReference: {fileID: 8459644560754191326, guid: 29ed1a29e8831e443b1e5133d4ec892f,
+        type: 3}
     - target: {fileID: 1955359185958527932, guid: 428a4aa36fab9de4c88bfd1c5c21f9e6,
         type: 3}
       propertyPath: m_Name
@@ -995,6 +1007,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1477122190315490107, guid: a61b5d6cf95fafa4c922e533f976d354,
+        type: 3}
+      propertyPath: food
+      value: 
+      objectReference: {fileID: 11400000, guid: 80a0922cb75d8d54da181ab55377d7e8,
+        type: 2}
+    - target: {fileID: 1477122190315490107, guid: a61b5d6cf95fafa4c922e533f976d354,
+        type: 3}
+      propertyPath: foodPrefab
+      value: 
+      objectReference: {fileID: 8459644560754191326, guid: 29ed1a29e8831e443b1e5133d4ec892f,
+        type: 3}
     - target: {fileID: 1955359185958527932, guid: a61b5d6cf95fafa4c922e533f976d354,
         type: 3}
       propertyPath: m_Name

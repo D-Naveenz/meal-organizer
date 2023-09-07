@@ -168,8 +168,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7386544125253197062}
   - {fileID: 3929170927798805432}
+  - {fileID: 7386544125253197062}
   - {fileID: 8918389001061238187}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -188,7 +188,7 @@ MonoBehaviour:
   highlighter: {fileID: 6818275254478548123}
   platform: {fileID: 7828324788904883592}
   foodAnchorPoint: {fileID: 3929170927798805432}
-  foodPrefab: {fileID: 0}
+  food: {fileID: 0}
 --- !u!136 &1376249258407484725
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3929170927798805432}
   m_Layer: 0
-  m_Name: PlatformTop
+  m_Name: FoodAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
