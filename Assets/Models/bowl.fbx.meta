@@ -3,7 +3,12 @@ guid: 9faadd375cdae0a4187134cc3fc56ef0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Porcelain
+    second: {fileID: 2100000, guid: 003b70b5351d4e44c8fad9c699a4b1ea, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -1,12 +1,12 @@
 {
     "m_SelectedDeviceId": "R58M42S5QWY",
     "m_SelectedPackage": {
-        "deviceId": "R58M42S5QWY",
-        "name": "com.dineease.mealorganizer",
-        "processId": 22929,
+        "deviceId": "",
+        "name": "",
+        "processId": 0,
         "exited": false
     },
-    "m_SelectedPriority": 0,
+    "m_SelectedPriority": 1,
     "m_KnownPackagesForSerialization": [
         {
             "deviceId": "R58M42S5QWY",
@@ -24,6 +24,12 @@
             "deviceId": "R58M42S5QWY",
             "name": "com.dineease.mealorganizer",
             "processId": 22929,
+            "exited": false
+        },
+        {
+            "deviceId": "10.169.60.201:5555",
+            "name": "com.dineease.mealorganizer",
+            "processId": 20026,
             "exited": false
         }
     ],
@@ -78,7 +84,7 @@
         "Behavior": 0
     },
     "m_FilterOptions": {
-        "m_Filter": "",
+        "m_Filter": "Error",
         "m_UseRegularExpressions": false,
         "m_MatchCase": false
     },
