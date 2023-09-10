@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
     private MealComponent selectedMealComponent;
 
     // Singleton
-    public InputManager Instance { get; private set; }
+    public static InputManager Instance { get; private set; }
 
     public event EventHandler<SelectedComponentChangedEventArgs> OnSelectedComponentChanged;
     public class SelectedComponentChangedEventArgs : EventArgs
