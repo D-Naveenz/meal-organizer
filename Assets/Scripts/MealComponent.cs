@@ -5,6 +5,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
+public enum MealComponentCategory
+{
+    MainCourse,
+    SideDish,
+    Dessert,
+    Drink
+}
+
 public class MealComponent : MonoBehaviour
 {
     [SerializeField] private GameObject highlighter;
@@ -13,7 +21,13 @@ public class MealComponent : MonoBehaviour
     [SerializeField] private FoodScriptableObject food;
 
     public FoodObject FoodObject { get; set; }
+    public MealComponentCategory category;
 
+    public static event EventHandler<SelectedFoodChangedEventArgs> OnSelectedFoodChanged;
+    public class SelectedFoodChangedEventArgs : EventArgs
+    {
+        public FoodScriptableObject SelectedFood { get; set; }
+    }
 
     private void Start()
     {
@@ -81,6 +95,9 @@ public class MealComponent : MonoBehaviour
             // spawn the food on the target location
             Transform foodTransform = Instantiate(foodSO.prefab, target);
             foodTransform.GetComponent<FoodObject>().MealComponent = this;
+
+            // fire the event
+            OnSelectedFoodChanged?.Invoke(this, new SelectedFoodChangedEventArgs { SelectedFood = foodSO });
         }
         else
         {

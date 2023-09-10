@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8549041461994950829}
   - component: {fileID: 6313284418596365816}
   - component: {fileID: 1503671245524449737}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8918389001061238187}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Interact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 3447011099612262872}
   - component: {fileID: 7339987626660517756}
   - component: {fileID: 1376249258407484725}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MealComponent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,6 +189,7 @@ MonoBehaviour:
   platform: {fileID: 7828324788904883592}
   foodAnchorPoint: {fileID: 3929170927798805432}
   food: {fileID: 11400000, guid: 80a0922cb75d8d54da181ab55377d7e8, type: 2}
+  category: 0
 --- !u!136 &1376249258407484725
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -221,7 +222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7386544125253197062}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,7 +254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3929170927798805432}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: FoodAnchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,6 +340,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: plate
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da6603ec5e65c6a4997a5009e8f7f643,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -422,6 +428,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: highlighter
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 4f76e7b8f279bbb4db41231c86ee6722,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

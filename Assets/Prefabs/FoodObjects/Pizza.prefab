@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8459644560754191326}
   - component: {fileID: -2487393878983994853}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pizza
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,6 +129,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pizza_visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ee9b3fb51c2f982478dd148a455bf313,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

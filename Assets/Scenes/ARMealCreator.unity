@@ -378,6 +378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6c19f757d7046b42afb2166dbdd8d33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ARObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &335969757
 Transform:
   m_ObjectHideFlags: 0
@@ -2069,11 +2072,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 375424550618779091, guid: 668d0aee8067258478e567243d3017e9,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 102995911}
+      addedObject: {fileID: 1429145089}
     - targetCorrespondingSourceObject: {fileID: 375424550618779091, guid: 668d0aee8067258478e567243d3017e9,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1429145089}
+      addedObject: {fileID: 102995911}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5462315488151183831, guid: 668d0aee8067258478e567243d3017e9,
         type: 3}
@@ -2110,6 +2113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f62db0801f7ba84eb77ea0eceef6909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  categoryText: {fileID: 1429145090}
+  foodNameText: {fileID: 102995912}
 --- !u!1001 &8888672649043050926
 PrefabInstance:
   m_ObjectHideFlags: 0

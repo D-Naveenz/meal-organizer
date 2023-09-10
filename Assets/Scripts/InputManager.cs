@@ -10,6 +10,8 @@ public class InputManager : MonoBehaviour
 {
     private MealComponent selectedMealComponent;
 
+    [SerializeField] private LayerMask ARObjectsLayer;
+
     // Singleton
     public static InputManager Instance { get; private set; }
 
@@ -52,7 +54,7 @@ public class InputManager : MonoBehaviour
         // Casting a ray from the touch position
         Ray ray = Camera.main.ScreenPointToRay(finger.screenPosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f) && hit.collider)
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, ARObjectsLayer) && hit.collider)
         {
             if (hit.transform.TryGetComponent(out MealComponent component))
             {
