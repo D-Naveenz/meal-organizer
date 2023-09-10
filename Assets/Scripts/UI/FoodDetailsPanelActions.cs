@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class FoodDetailsPanelActions : MonoBehaviour
 {
-    private InputManager inputManager;
+    private TouchInputManager inputManager;
 
     [SerializeField] private TextMeshProUGUI categoryText;
     [SerializeField] private TextMeshProUGUI foodNameText;
@@ -18,7 +18,7 @@ public class FoodDetailsPanelActions : MonoBehaviour
         Hide();
 
         // get the input manager
-        inputManager = InputManager.Instance;
+        inputManager = TouchInputManager.Instance;
 
         // subscribe to the event
         inputManager.OnSelectedComponentChanged += InputManager_OnSelectedComponentChanged;
@@ -38,7 +38,7 @@ public class FoodDetailsPanelActions : MonoBehaviour
         }
     }
 
-    private void InputManager_OnSelectedComponentChanged(object sender, InputManager.SelectedComponentChangedEventArgs e)
+    private void InputManager_OnSelectedComponentChanged(object sender, TouchInputManager.SelectedComponentChangedEventArgs e)
     {
         // if the selected component is null, hide the panel
         if (e.SelectedComponent == null)
