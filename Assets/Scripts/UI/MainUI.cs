@@ -19,6 +19,6 @@ public class MainUI : MonoBehaviour
 
     private void ResetButton_OnClick()
     {
-        Utils.ShowAndroidToastMessage("Reset button clicked");
+        Utils.ShowAndroidToastMessage("Refreshed!");
     }
 }

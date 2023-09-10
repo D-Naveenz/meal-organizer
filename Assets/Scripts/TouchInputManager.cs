@@ -1,10 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using UnityEngine.EventSystems;
-using System.Reflection;
-using UnityEngine.InputSystem;
 
 public class TouchInputManager : MonoBehaviour
 {
